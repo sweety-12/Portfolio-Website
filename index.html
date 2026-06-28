@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">   
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -866,7 +866,8 @@
         <div class="chart-ring-wrap">
           <canvas id="dsaChart"></canvas>
           <div class="chart-ring-center">
-            <div class="ring-count">135</div>
+            <!-- <div class="ring-count">135</div> -->
+            <div class="ring-count" id="ringCount">0</div>
             <div class="ring-label">Problems Solved</div>
           </div>
         </div>
@@ -877,10 +878,11 @@
             <div class="legend-item"><div class="legend-dot dot-hard"></div>Hard</div>
           </div>
           <div class="stat-row">
-            <div class="stat-box"><div class="stat-num easy">72</div><div class="stat-lbl">Easy</div></div>
-            <div class="stat-box"><div class="stat-num med">45</div><div class="stat-lbl">Medium</div></div>
-            <div class="stat-box"><div class="stat-num hard">18</div><div class="stat-lbl">Hard</div></div>
-          </div>
+            <div class="stat-box"><div class="stat-num easy" id="statEasy">72</div><div class="stat-lbl">Easy</div></div>
+            <div class="stat-box"><div class="stat-num med" id="statMed">45</div><div class="stat-lbl">Medium</div></div>
+            <div class="stat-box"><div class="stat-num hard" id="statHard">18</div><div class="stat-lbl">Hard</div></div>
+            
+        </div>
         </div>
       </div>
     </div>
@@ -959,7 +961,8 @@
         <div class="contact-icon">✉️</div>
         <div class="contact-info">
           <div class="contact-type">Email</div>
-          <div class="contact-val">kumarisweety.6747@gmail.com</div>
+          <div class="contact-val">Email
+          </div>
         </div>
       </a>
       <a href="https://github.com/sweety-12" target="_blank" rel="noopener noreferrer" class="contact-card">
@@ -989,6 +992,7 @@
 <!-- ── SCRIPTS ── -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
+const DSA_STATS = { easy: 29, medium: 77, hard: 45}; 
 // ── Particle canvas ──
 (function(){
   const canvas = document.getElementById('hero-canvas');
@@ -1039,14 +1043,16 @@
 (function(){
   const canvas = document.getElementById('dsaChart');
   const ctx = canvas.getContext('2d');
-  const totalSolved = 72 + 45 + 18;
+//   const totalSolved = 72 + 45 + 18;
+  const totalSolved = DSA_STATS.easy + DSA_STATS.medium + DSA_STATS.hard;
   const chart = new Chart(ctx, {
     type: 'doughnut',
     data: {
       labels: ['Easy','Medium','Hard'],
       datasets: [
         {
-          data: [72, 45, 18],
+        //   data: [72, 45, 18],
+          data: [DSA_STATS.easy, DSA_STATS.medium, DSA_STATS.hard],
           backgroundColor: [
             'rgba(34,197,94,0.9)',
             'rgba(245,158,11,0.9)',
@@ -1083,7 +1089,8 @@
     }
   });
 
-  const counterEl = document.querySelector('.ring-count');
+//   const counterEl = document.querySelector('.ring-count');
+  const counterEl = document.getElementById('ringCount');
   let current = 0;
   const duration = 1200;
   const start = performance.now();
@@ -1096,6 +1103,10 @@
     else counterEl.textContent = totalSolved;
   }
   requestAnimationFrame(updateCounter);
+
+  document.getElementById('statEasy').textContent = DSA_STATS.easy;
+  document.getElementById('statMed').textContent  = DSA_STATS.medium;
+  document.getElementById('statHard').textContent = DSA_STATS.hard;
 })();
 
 // ── Scroll reveal ──
@@ -1110,12 +1121,12 @@
 // ── Pattern Carousel ──
 (function(){
   const patterns = [
-    { name: 'Two Pointers', items: ['Fast & Slow', 'Opposite Direction', 'Merge Sorted Arrays', 'Container Most Water'] },
-    { name: 'Sliding Window', items: ['Fixed Size Window', 'Variable Size Window', 'Longest Substring', 'Min Window Substring'] },
-    { name: 'Binary Search', items: ['Standard Binary Search', 'First/Last Position', 'Search Rotated Array', 'Find Peak Element'] },
-    { name: 'Fast & Slow', items: ['Cycle Detection', 'Find Middle of List', 'Palindrome Check', 'Linked List Reversal'] },
+    { name: 'Two Pointers', items: ['Fast & Slow', 'Opposite Direction', 'Partition(Dutch National Flag)', 'Merge Sorted Arrays', 'Same Direction(Read/Write)'] },
+    { name: 'Sliding Window', items: ['Fixed Size Window', 'Variable Size Window', 'Frequency Map', 'Minimum Window', 'Flip/Replace at Most K Elements'] },
+    { name: 'Binary Search', items: ['Binary Search on Answers', 'Upper/Lower Bound', 'Search on Rotated Array', 'Find Peak Element', 'Binary Search on 2D matrix'] },
+    { name: 'Graph', items: ['Traversal(BFS/DFS)', 'shortest Path', 'Cycle Detection', 'Topological Sort', 'Grid as Graph'] },
     { name: 'Dynamic Programming', items: ['0/1 Knapsack', 'Longest Common Subseq', 'Fibonacci Memoization', 'Coin Change Problem'] },
-    { name: 'Backtracking', items: ['N-Queens Problem', 'Permutations', 'Combinations', 'Sudoku Solver'] }
+    // { name: 'Backtracking', items: ['N-Queens Problem', 'Permutations', 'Combinations', 'Sudoku Solver'] }
   ];
   
   const carousel = document.getElementById('patternsCarousel');
