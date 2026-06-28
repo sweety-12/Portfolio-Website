@@ -60,6 +60,70 @@
     .nav-links a:hover { color: var(--white); }
     .nav-links a:hover::after { width: 100%; }
 
+    .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 200;
+    }
+    .nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s;
+    }
+    .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.open span:nth-child(2) { opacity: 0; }
+    .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+   @media (max-width: 700px) {
+  .nav-toggle { display: flex; }
+  .nav-links {
+    display: none !important;
+    position: fixed;
+    top: 60px;
+    right: 16px;
+    left: auto;
+    bottom: auto;
+    width: 200px;
+    background: rgba(17,17,24,0.98);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0;
+    padding: 8px 0;
+    z-index: 150;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(139,92,246,0.15);
+  }
+  .nav-links.open { display: flex !important; }
+  .nav-links li { width: 100%; }
+  .nav-links a {
+    display: block !important;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--gray);
+    padding: 12px 20px;
+    width: 100%;
+    border-bottom: 1px solid rgba(139,92,246,0.08);
+  }
+  .nav-links li:last-child a { border-bottom: none; }
+  .nav-links a:hover {
+    color: var(--white);
+    background: rgba(139,92,246,0.1);
+  }
+  .nav-links a::after { display: none; }
+}
+
     /* ── SECTION BASE ── */
     section { padding: 100px 80px; }
     .section-label {
@@ -759,12 +823,23 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo">code.<span> sleep.</span> repeat.</div>
-  <ul class="nav-links">
-    <li><a href="#hero">Home</a></li>
+  <button class="nav-toggle" id="navToggle">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <!-- <li><a href="#hero">Home</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#dsa">DSA</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact">Contact</a></li> -->
+
+    <li><a href="#hero" onclick="closeNav()">Home</a></li>
+    <li><a href="#skills" onclick="closeNav()">Skills</a></li>
+    <li><a href="#dsa" onclick="closeNav()">DSA</a></li>
+    <li><a href="#projects" onclick="closeNav()">Projects</a></li>
+    <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+
+
   </ul>
 </nav>
 
@@ -1272,6 +1347,19 @@ document.addEventListener('DOMContentLoaded', function(){
   // start the first cycle
   typingTimer = setTimeout(typeChar, 600);
 });
+
+    // ── Hamburger nav ──
+    const navToggle = document.getElementById('navToggle');
+    const navLinks  = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+    });
+    function closeNav() {
+    navToggle.classList.remove('open');
+    navLinks.classList.remove('open');
+    }
+
 </script>
 </body>
 </html>
